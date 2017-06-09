@@ -1,0 +1,18 @@
+{
+  "name": "proyecto_web_jeison_andres_sergio_scraping",
+  "version": "1.0.0",
+  "description": "scraping for titicupon and yuplon",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "jeison_andres_sergio",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "express": "^4.15.3",
+    "handlebars": "^4.0.10",
+    "mongoose": "^4.10.0",
+    "request": "^2.81.0"
+  }
+}

@@ -16,7 +16,8 @@ var datosModel = mongoose.model('datos',{
     descuento: String,
     fechaVencimiento: String,
     tipo: String,
-    Visitas: String,
+    visitas: String,
+    tipoPag: String,
     Url:String
 });
 
@@ -25,11 +26,11 @@ function scrapTiticupon() {
     var urlCupones = 'https://www.titicupon.com/titicupon/lo-que-te-perdiste?page=';
     var url = urlTiti;
     var i = -1;
-    while (i < 3) {
+    var cont = 4;
+   
+    while (i < 100) {
         request(url, function (err, resp, body) {
-            console.log(url);
             if (err) {
-                console.log("Hola mundo");
                 console.log(err);
             } else {
                 var $ = cheerio.load(body);
@@ -44,6 +45,15 @@ function scrapTiticupon() {
                         var newTipo = tipo.replace(/([\n!-.])/g, '');
                         var newTitulo = titulo.replace(/([!.´])/g, '').toLowerCase();
                         var urlOferta = urlTiti + "/" + newTitulo.replace(/ /g, '-');
+                        
+                        var tipoPag = "Titicupon";
+                       
+                        if(cont > 0){
+                            var visitas = "1";
+                        }else{
+                            var visitas = "0";
+                        }
+                        cont-=1;
                         /*
                          var arreglo = {
                          nombre: titulo,
@@ -65,6 +75,8 @@ function scrapTiticupon() {
                             descuento: descuento,
                             fechaVencimiento: fechacaducidad,
                             tipo: newTipo,
+                            visitas: visitas,
+                            tipoPag: tipoPag,
                             url: urlOferta
                         });
 
@@ -87,6 +99,7 @@ function scrapTiticupon() {
 
 function scrapYuplon() {
     var url = "http://www.yuplon.com/";
+    var cont1 = 4;
 
     request(url, function (err, resp, body) {
 
@@ -107,6 +120,14 @@ function scrapYuplon() {
                     var date = new Date();
                     var fechacaducidad = date.getDate().toString() + "/" + (date.getMonth() + 1).toString() + "/" + date.getFullYear().toString();
                     var urlOferta = url + $(this).find('a').attr("href");
+                    var tipoPag = "Yuplon";
+                   
+                    if(cont1 > 0){
+                        var visitas = "1";
+                    }else{
+                        var visitas = "0";
+                    }
+                    cont1-=1;
                     /*
                      var arreglo = {
                      nombre: titulo,
@@ -128,7 +149,10 @@ function scrapYuplon() {
                         descuento: descuento,
                         fechaVencimiento: fechacaducidad,
                         tipo: tipo,
+                        visitas: visitas,
+                        tipoPag: tipoPag,
                         url: urlOferta
+
                     });
 
                     datos.save(function (error) {
@@ -143,11 +167,15 @@ function scrapYuplon() {
 
 }
 
-
-setInterval(scrapYuplon,3600000); //prueba de 10s cambiar 3600000 por 10000
-setInterval(scrapYuplon,3600000); //prueba de 10s cambiar 3600000 por 10000
+scrapTiticupon();
+scrapYuplon();
+//setInterval(scrapTiticupon,3600000); //prueba de 10s cambiar 3600000 por 10000
+//setInterval(scrapYuplon,3600000); //prueba de 10s cambiar 3600000 por 10000
 
 console.log("server running on "+ port);
 app.listen(port);
+
+
+
 
 

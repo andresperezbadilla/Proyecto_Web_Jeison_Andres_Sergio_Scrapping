@@ -167,7 +167,8 @@ function scrapYuplon() {
 
 }
 
-
+scrapTiticupon();
+scrapYuplon();
 setInterval(scrapTiticupon,3600000); //prueba de 10s cambiar 3600000 por 10000
 setInterval(scrapYuplon,3600000); //prueba de 10s cambiar 3600000 por 10000
 
